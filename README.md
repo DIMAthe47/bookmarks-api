@@ -1,7 +1,7 @@
 # bookmarks-api
 bookmarks rest api
 
-fastcgi
+notes to run fastcgi:
 
 1. replace /etc/nginx/sites-enabled/default with default
 1. build so from cpp (g++ SimpleClass.cpp -fPIC -lfastcgi-daemon2 -shared -o libcsimple.so)
