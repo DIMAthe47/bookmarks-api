@@ -2,6 +2,7 @@
 bookmarks rest api
 
 fastcgi
+
 1. replace /etc/nginx/sites-enabled/default with default
 1. build so from cpp (g++ SimpleClass.cpp -fPIC -lfastcgi-daemon2 -shared -o libcsimple.so)
 2. reference this so in csimple.conf
