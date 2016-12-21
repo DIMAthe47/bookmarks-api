@@ -197,20 +197,20 @@ definitions:
         properties:
           self: 
             type: string
-          child_bookmark_collections_links:
-            type: array
-            items: 
-              type: string
-          bookmarks_links:
-            type: array
-            items: 
-              type: string
       _id:
         type: string
       name:
         type: string
       description:
         type: string
+      child_bookmark_collections:
+        type: array
+        items:
+          type: string
+      bookmarks:
+        type: array
+        items:
+          type: string
         
   Bookmark:
     type: object
