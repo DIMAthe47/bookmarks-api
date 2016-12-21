@@ -1,0 +1,232 @@
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: Сервис хранения и поиска закладок
+  description: |
+    Есть группа пользователей, которые хотят иметь общие закладки по какой-то теме. Они создают свою коллекцию закладок с названием и описанием и добавляют туда закладки с описанием и ключевыми словами.
+    
+    Коллекцию можно вложить в другую коллекцию, тем самым создавая иерархию.
+    Например, у рабочего коллектива или какого-нибудь сообщества может быть коллекция "WebDevelopment", в которую вложены коллекции "Html" ,"CSS" ,"JS", а в них самих уже лежат закладки-ссылки на полезные ресурсы.
+
+paths:
+
+  /bookmarkCollections:
+    get:
+      responses:
+        200:
+          description: Получить все коллекции закладок доступные пользователю
+          schema:
+            title: bookmarkCollections
+            type: array
+            items:
+              $ref: '#/definitions/BookmarkCollection'
+         
+    post:
+      parameters:
+        - name: bookmarkCollection
+          in: body
+          description: Коллекция закладок
+          schema:
+            $ref: '#/definitions/BookmarkCollection'
+          required: true
+      responses:
+        201:
+          description: Коллекция закладок добавлена
+          schema:
+            $ref: '#/definitions/BookmarkCollection'
+            
+  /bookmarkCollections/{bookmarkCollectionId}:
+    get:
+      parameters:
+        - name: bookmarkCollectionId
+          in: path
+          type: string
+          description: id коллекции закладок
+          required: true
+      responses:
+        200:
+          description: Получить коллекцию закладок
+          schema:
+            $ref: '#/definitions/BookmarkCollection'
+            
+    put:
+      description:
+          Нужен в основном для того, чтобы обновить child_bookmark_collections_links, то есть чтобы вложить другие коллекции в эту коллекцию, тем самым создавая иерархию
+      parameters:
+        - name: bookmarkCollectionId
+          in: path
+          type: string
+          description: id коллекции закладок
+          required: true
+        - name: bookmarkCollection
+          in: body
+          description: Коллекция закладок
+          schema:
+            $ref: '#/definitions/BookmarkCollection'
+          required: true
+      responses:
+        200:
+          description: Коллекция закладка обновлена
+          schema:
+            $ref: '#/definitions/BookmarkCollection'  
+  
+    delete:
+      parameters:
+        - name: bookmarkCollectionId
+          in: path
+          type: string
+          description: id коллекции закладок
+          required: true
+      responses:
+        204:
+          description: Коллекция закладок удалена
+    
+
+  /bookmarkCollections/{bookmarkCollectionId}/bookmarks:
+    get:
+      parameters:
+        - name: bookmarkCollectionId
+          in: path
+          type: string
+          description: id коллекции закладок
+          required: true
+        - name: description
+          in: query
+          description: Описание, по которому нужно искать закладки
+          type: string
+        - name: keyWords
+          in: query
+          description: Ключевые слова, по которым нужно искать закладки
+          type: string
+      responses:
+        200:
+          description: Получить закладки из коллекции
+          schema:
+            title: bookmarks
+            type: array
+            items:
+              $ref: '#/definitions/Bookmark'
+         
+    post:
+      parameters:
+        - name: bookmarkCollectionId
+          in: path
+          type: string
+          description: id коллекции закладок
+          required: true
+        - name: bookmark
+          in: body
+          description: Закладка
+          schema:
+            $ref: '#/definitions/Bookmark'
+          required: true
+      responses:
+        201:
+          description: Закладка добавлена
+          schema:
+            $ref: '#/definitions/Bookmark'
+  
+  /bookmarkCollections/{bookmarkCollectionId}/bookmarks/{bookmarkId}:
+    get:
+      parameters:
+        - name: bookmarkCollectionId
+          in: path
+          type: string
+          description: id коллекции закладок
+          required: true
+        - name: bookmarkId
+          in: path
+          type: string
+          description: id закладки
+          required: true
+      responses:
+        200:
+          description: Получить закладку из коллекции
+          schema:
+            $ref: '#/definitions/Bookmark'
+  
+  
+    put:
+      parameters:
+        - name: bookmarkCollectionId
+          in: path
+          type: string
+          description: id коллекции закладок
+          required: true
+        - name: bookmarkId
+          in: path
+          type: string
+          description: id закладки
+          required: true
+        - name: bookmark
+          in: body
+          description: Закладка
+          schema:
+            $ref: '#/definitions/Bookmark'
+          required: true
+      responses:
+        200:
+          description: Закладка обновлена
+          schema:
+            $ref: '#/definitions/Bookmark'
+    
+    delete:
+      parameters:
+        - name: bookmarkCollectionId
+          in: path
+          type: string
+          description: id коллекции закладок
+          required: true
+        - name: bookmarkId
+          in: path
+          type: string
+          description: id закладки
+          required: true
+      responses:
+        204:
+          description: Закладка удалена
+ 
+         
+definitions:
+
+  BookmarkCollection:
+    type: object
+    properties:
+      _links:
+        type: object
+        properties:
+          self: 
+            type: string
+      _id:
+        type: string
+      child_bookmark_collections:
+        type: array
+        items:
+          type: string
+      bookmarks:
+        type: array
+        items:
+          type: string
+      name:
+        type: string
+      description:
+        type: string
+        
+  Bookmark:
+    type: object
+    properties:
+      _links:
+        type: object
+        properties:
+          self: 
+            type: string
+      _id:
+        type: string
+      url:
+        type: string
+      description:
+        type: string
+      keyWords:
+        type: array
+        items:
+          type: string
