@@ -6,5 +6,5 @@ Configuration for fastcgi: threads="2" queue="1000"
 Поэтому можно предполагать, что при 2500rps будет стабильная работа.
 ####line(1,2500,30s) const(2500,5m) -https://overload.yandex.net/5457#tab=test_data&tags=&plot_groups=main&machines=&metrics=&slider_start=1482892406&slider_end=1482892734
 
-Интересно, что даже если мы понизим до 2000rps, результаты будут почти такими же
+Интересно, что даже если мы понизим до 2000rps, результаты будут почти такими же, правда пямять при 2500 впритык.
 ####line(1,2000,30s) const(2000,5m) - https://overload.yandex.net/5456#tab=test_data&tags=&plot_groups=main&machines=&metrics=&slider_start=1482890588&slider_end=1482890916
