@@ -121,11 +121,6 @@ private:
          std::string id = extractIdFromRequestPath(request);
          dao.deleteBookmark(id);
          request->setStatus(204);
-
-        /*
-        std::string id = getId(request);
-        db.DeletePost(id);
-        */
     }
 };
 
